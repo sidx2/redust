@@ -1,0 +1,13 @@
+[package]
+name = "redust"
+version = "0.1.0"
+edition = "2024"
+
+
+[[bin]]
+name = "redust_server"
+path = "src/main.rs"
+
+[[bin]]
+name = "redust_cli"
+path = "src/bin/redust_cli.rs"
