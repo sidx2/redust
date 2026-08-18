@@ -11,3 +11,6 @@ path = "src/main.rs"
 [[bin]]
 name = "redust_cli"
 path = "src/bin/redust_cli.rs"
+
+[dependencies]
+tokio = { version = "1.53.1", features = ["full"] }
