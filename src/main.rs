@@ -118,12 +118,20 @@ async fn handle_connection(mut tcp_stream: tokio::net::TcpStream, map: Arc<Mutex
                     let k = command_vec[1].trim();
 
                     let value = {
-                        let map_locked = map.lock().expect("failed to aquire lock on map");
-                        match map_locked.map_string_ttl_item.get(k) { // todo, dynamic dispatch
-                            Some(value) => value.value.to_string(),
-                            None => String::new(),
+                        let map_locked = map.lock().expect("failed to acquire lock on map");
+
+                        match map_locked.map_string_ttl_item.get(k) {
+                            Some(value) => value.value.clone(),
+
+                            None => {
+                                match map_locked.map_string_string.get(k) {
+                                    Some(value) => value.to_string().clone(),
+                                    None => String::new(),
+                                }
+                            }
                         }
                     };
+
                     let _ = tcp_stream
                         .write_all(format!("{value}\n").to_string().as_bytes())
                         .await
